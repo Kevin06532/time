@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>纯黄色时间日期显示</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            /* 标准纯黄色（RGB 255,255,0），无任何色调偏差 */
+            background-color: #FFFF00; 
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            /* 确保背景无任何额外样式干扰 */
+            background-image: none;
+            background-gradient: none;
+            animation: none;
+        }
+        .time-date-container {
+            text-align: center;
+            /* 纯黑文字适配纯黄背景，无任何颜色偏差 */
+            color: #000000;
+            text-shadow: none; /* 移除阴影避免视觉偏差 */
+            padding: 2rem 4rem;
+            border-radius: 12px;
+            /* 半透明白色容器，仅提升可读性，不影响黄色背景 */
+            background-color: rgba(255,255,255,0.2);
+            backdrop-filter: blur(8px);
+        }
+        #date {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        #time {
+            font-size: 4rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="time-date-container">
+        <div id="date"></div>
+        <div id="time"></div>
+    </div>
+
+    <script>
+        // 更新时间和日期的函数
+        function updateTimeDate() {
+            const now = new Date();
+            // 格式化日期（例：2024年10月28日 星期二）
+            const optionsDate = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+            const formattedDate = now.toLocaleDateString('zh-CN', optionsDate);
+            
+            // 格式化时间（仅保留小时和分钟，无秒数）
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const formattedTime = `${hours}:${minutes}`;
+            
+            // 插入到页面
+            document.getElementById('date').textContent = formattedDate;
+            document.getElementById('time').textContent = formattedTime;
+        }
+
+        // 初始调用 + 每分钟更新一次（60000毫秒）
+        updateTimeDate();
+        setInterval(updateTimeDate, 60000);
+    </script>
+</body>
+</html>
